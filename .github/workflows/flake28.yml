@@ -20,4 +20,4 @@ jobs:
         pip install flake8
     - name: Analysing the code with pylint
       run: |
-        poetry run flake8 gendiff
+        flake8 gendiff
