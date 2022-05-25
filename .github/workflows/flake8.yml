@@ -1,0 +1,16 @@
+name: alint
+on: push
+jobs:
+  my-job:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+      - name: install
+        run: pip install poetry
+      - name: install poetry
+        run: poetry install
+      - name: install flake8
+        run: poetry add flake8
+      - name: lint
+        run: poetry run flake8 brain_games
