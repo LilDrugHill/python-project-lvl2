@@ -22,15 +22,15 @@ def pair_gen(node1, node2, key):
     value1 = node1
     value2 = node2
     if value1 == '&':
-        return (f'+{key}', value2)
+        return (f'+ {key}', value2)
     if value2 == '&':
-        return (f'-{key}', value1)
+        return (f'- {key}', value1)
     if value1 == value2:
-        return (f'{key}', value1)
+        return (f'  {key}', value1)
     if value1 != value2 and not isinstance(value1, dict) or not isinstance(value2, dict):
         return (
-            (f'-{key}', value1),
-            (f'+{key}', value2),
+            (f'- {key}', value1),
+            (f'+ {key}', value2),
         )
 
 

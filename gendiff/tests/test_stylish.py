@@ -1,4 +1,4 @@
-from gendiff.stylish import stringify
+from stylish.stylish import stringify
 from gendiff.comparator import generate_diff
 from gendiff.convertors.yaml import convert as convert2_yaml
 

@@ -2,7 +2,8 @@
 
 import argparse
 from gendiff.comparator import generate_diff
-from gendiff.stylish import stringify
+from stylish.stylish import stringify
+from plain.plain import plain
 from gendiff.convertors.json import convert as convert2_json
 from gendiff.convertors.yaml import convert as convert2_yaml
 
@@ -14,7 +15,6 @@ def main():
     parser.add_argument('first_file')
     parser.add_argument('second_file')
     parser.add_argument('-f', '--format', help='\nset format of output')
-    parser.add_argument('-F', '--formater', help='\nchoose formater(stylush by default)')
 
     args = parser.parse_args()
 
@@ -30,8 +30,10 @@ def main():
 
     diff_tree = generate_diff(file1, file2)
 
-    if args.formater is None:
+    if args.format is None:
         print(stringify(diff_tree))
+    elif args.format == 'plain':
+        print(plain(diff_tree))
 
 
 if __name__ == '__main__':
