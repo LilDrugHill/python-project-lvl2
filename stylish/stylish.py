@@ -48,5 +48,6 @@ def visual(value, replacer, spaces_count):
     value = value.replace('[', '{\n').replace(', ', '\n')
     value = value.replace("'", '').replace('"', '')
     value = value.replace('\\', '')
+    value = value.replace('  +', '+ ').replace('  -', '- ').replace('%', '')
 
     return value
