@@ -30,6 +30,7 @@ jobs:
         run: |
           make build
       - name: publish
+        run: |
           make publish
       - name: Package-install
         run: |
