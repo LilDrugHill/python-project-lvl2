@@ -26,6 +26,9 @@ jobs:
       - name: Run linter
         run: |
           make lint
+      - name: Package-install
+        run: |
+          make package-install
       - name: Run tests
         run: |
           make test
