@@ -26,15 +26,6 @@ jobs:
       - name: Run linter
         run: |
           make lint
-      - name: Build
-        run: |
-          make build
-      - name: publish
-        run: |
-          make publish
-      - name: Package-install
-        run: |
-          make package-install
       - name: Run tests
         run: |
           make test
