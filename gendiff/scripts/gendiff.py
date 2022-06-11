@@ -4,6 +4,7 @@ import argparse
 from gendiff.comparator import generate_diff
 from stylish.stylish import stringify
 from plain.plain import plain
+from json_format.json_format import json_format
 from gendiff.convertors.json import convert as convert2_json
 from gendiff.convertors.yaml import convert as convert2_yaml
 
@@ -34,6 +35,8 @@ def main():
         print(stringify(diff_tree))
     elif args.format == 'plain':
         print(plain(diff_tree))
+    elif args.format == 'json':
+        print(json_format(diff_tree))
 
 
 if __name__ == '__main__':
