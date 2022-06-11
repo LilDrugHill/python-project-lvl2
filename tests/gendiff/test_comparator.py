@@ -1,4 +1,4 @@
-from gendiff.comparator import generate_diff, pair_gen, new_tree_gen
+from gendiff.generate_diff import generate_diff, pair_gen, new_tree_gen
 from gendiff.convertors.json import convert as convert2_json
 from gendiff.convertors.yaml import convert as convert2_yaml
 

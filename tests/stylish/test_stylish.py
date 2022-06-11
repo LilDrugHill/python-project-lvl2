@@ -1,5 +1,5 @@
 from stylish.stylish import stringify
-from gendiff.comparator import generate_diff
+from gendiff.generate_diff import generate_diff
 from gendiff.convertors.yaml import convert as convert2_yaml
 
 

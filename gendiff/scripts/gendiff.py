@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
-from gendiff.comparator import generate_diff
+from gendiff.generate_diff import generate_diff
 from stylish.stylish import stringify
 from plain.plain import plain
 from json_format.json_format import json_format
