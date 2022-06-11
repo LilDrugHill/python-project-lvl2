@@ -1,5 +1,5 @@
 from stylish.stylish import stringify
-from gendiff.generate_diff import generate_diff
+from gendiff.gendiff import generate_diff
 from gendiff.convertors.yaml import convert as convert2_yaml
 
 
@@ -27,8 +27,8 @@ def test_deep_stylish():
         deep: {\n            id: {\n                number: 45\n\
             }\n        }\n        fee: 100500\n    }\n}'
 
-    file1 = 'tests/fixtures/deep_files/file1.yaml'
-    file2 = 'tests/fixtures/deep_files/file2.yaml'
+    file1 = 'tests/fixtures/deep_files/file1.yml'
+    file2 = 'tests/fixtures/deep_files/file2.yml'
     data = generate_diff(convert2_yaml(file1), convert2_yaml(file2))
 
     assert stringify(data) == expected_string

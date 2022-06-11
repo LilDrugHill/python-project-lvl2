@@ -1,5 +1,5 @@
 import json
-from gendiff.generate_diff import generate_diff
+from gendiff.gendiff import generate_diff
 from json_format.json_format import json_format
 from gendiff.convertors.json import convert as convert2_json
 

@@ -1,5 +1,5 @@
 from plain.plain import plain
-from gendiff.generate_diff import generate_diff
+from gendiff.gendiff import generate_diff
 from gendiff.convertors.json import convert as convert2_json
 
 

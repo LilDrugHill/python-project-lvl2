@@ -1,4 +1,4 @@
-from gendiff.generate_diff import generate_diff, pair_gen, new_tree_gen
+from gendiff.gendiff import generate_diff, pair_gen, new_tree_gen
 from gendiff.convertors.json import convert as convert2_json
 from gendiff.convertors.yaml import convert as convert2_yaml
 
@@ -81,8 +81,8 @@ def test_depth_gendiff_yaml():
                     '-group2': {'abc': 12345, 'deep': {'id': 45}},
                     '+group3': {'deep': {'id': {'number': 45}}, 'fee': 100500}}
 
-    file1 = 'tests/fixtures/deep_files/file1.yaml'
-    file2 = 'tests/fixtures/deep_files/file2.yaml'
+    file1 = 'tests/fixtures/deep_files/file1.yml'
+    file2 = 'tests/fixtures/deep_files/file2.yml'
 
     converted_file1 = convert2_yaml(file1)
     converted_file2 = convert2_yaml(file2)
