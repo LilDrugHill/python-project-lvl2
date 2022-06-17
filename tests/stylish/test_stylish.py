@@ -4,8 +4,10 @@ from gendiff.yaml_convertor import convert as convert2_yaml
 
 
 def test_simple_stylish():
-    expected_string = '{\n  - follow: false\n    host: hexlet.io\n  - proxy: \
-123.234.53.22\n  - timeout: 50\n  + timeout: 20\n  + verbose: true\n}'
+    output_fixture = 'tests/fixtures/outputs/stylish_simple.txt'
+
+    with open(output_fixture, encoding='utf-8') as read_file:
+        expected_string = read_file.read()
 
     file1 = 'tests/fixtures/simple_files/file1.yaml'
     file2 = 'tests/fixtures/simple_files/file2.yaml'
@@ -15,17 +17,10 @@ def test_simple_stylish():
 
 
 def test_deep_stylish():
-    expected_string = '{\n    common: {\n      + follow: false\n        setting1: Value 1\n\
-      - setting2: 200\n      - setting3: true\n      + setting3: null\n\
-      + setting4: blah blah\n      + setting5: {\n            key5: value5\n\
-        }\n        setting6: {\n            doge: {\n              - wow: \n\
-              + wow: so much\n            }\n            key: value\n\
-          + ops: vops\n        }\n    }\n    group1: {\n      - baz: bas\n\
-      + baz: bars\n        foo: bar\n      - nest: {\n            key: value\n\
-        }\n      + nest: str\n    }\n  - group2: {\n        abc: 12345\n\
-        deep: {\n            id: 45\n        }\n    }\n  + group3: {\n\
-        deep: {\n            id: {\n                number: 45\n\
-            }\n        }\n        fee: 100500\n    }\n}'
+    output_fixture = 'tests/fixtures/outputs/stylish_deep.txt'
+
+    with open(output_fixture, encoding='utf-8') as read_file:
+        expected_string = read_file.read()
 
     file1 = 'tests/fixtures/deep_files/file1.yml'
     file2 = 'tests/fixtures/deep_files/file2.yml'
