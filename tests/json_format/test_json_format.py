@@ -5,7 +5,7 @@ from gendiff.json_convertor import convert as convert2_json
 
 
 def test_json_format_deep():
-    fixture = 'tests/fixtures/json_output/deep_file.json'
+    fixture = 'tests/fixtures/outputs/deep_file.json'
 
     with open(fixture, encoding='utf-8') as read_file:
         read_file = json.load(read_file)
