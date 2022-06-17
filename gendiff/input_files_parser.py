@@ -5,14 +5,18 @@ import yaml
 def parse_input_format(args):
     if args.first_file[-4:] == 'json':
         file1 = convert_json(args.first_file)
-    else:
+    elif args.second_file[-4:] == 'yaml' or args.second_file[-3:] == 'yml':
         file1 = convert_yaml(args.first_file)
+    else:
+        raise ValueError("Wrong input format (first file)")
 
     if args.second_file[-4:] == 'json':
         file2 = convert_json(args.second_file)
-    else:
+    elif args.second_file[-4:] == 'yaml' or args.second_file[-4:] == 'yml':
         file2 = convert_yaml(args.second_file)
-
+    else:
+        raise ValueError("Wrong input format (second file)")
+        
     return file1, file2
 
 
