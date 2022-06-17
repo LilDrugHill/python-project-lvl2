@@ -1,7 +1,7 @@
 import json
-from gendiff.gendiff import generate_diff
-from json_format.json_format import json_format
-from gendiff.convertors.json import convert as convert2_json
+from gendiff.comparator import generate_diff
+from formatters.json_format import json_format
+from gendiff.json_convertor import convert as convert2_json
 
 
 def test_json_format_deep():

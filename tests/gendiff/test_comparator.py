@@ -1,136 +1,87 @@
-from gendiff.gendiff import generate_diff, pair_gen, new_tree_gen
-from gendiff.convertors.json import convert as convert2_json
-from gendiff.convertors.yaml import convert as convert2_yaml
+import pytest
+from gendiff.comparator import generate_diff, pair_gen, new_tree_gen
+from gendiff.json_convertor import convert as convert2_json
 
 
-def test_simple_gendiff_json():
-    expected_res = {'-follow': False,
-                    '%host': 'hexlet.io',
-                    '-proxy': '123.234.53.22',
-                    '-timeout': 50, '+timeout': 20,
-                    '+verbose': True}
+expected_res_simple = {'-follow': False,
+                       '%host': 'hexlet.io',
+                       '-proxy': '123.234.53.22',
+                       '-timeout': 50, '+timeout': 20,
+                       '+verbose': True}
 
-    file1 = 'tests/fixtures/simple_files/file1.json'
-    file2 = 'tests/fixtures/simple_files/file2.json'
+expected_res_deep = {'common': {'+follow': False,
+                                '%setting1': 'Value 1',
+                                '-setting2': 200,
+                                '-setting3': True,
+                                '+setting3': None,
+                                '+setting4': 'blah blah',
+                                '+setting5': {'key5': 'value5'},
+                                'setting6': {'doge': {'-wow': '', '+wow': 'so much'},
+                                             '%key': 'value', '+ops': 'vops'}},
+                     'group1': {'-baz': 'bas',
+                                '+baz': 'bars',
+                                '%foo': 'bar',
+                                '-nest': {'key': 'value'},
+                                '+nest': 'str'},
+                     '-group2': {'abc': 12345, 'deep': {'id': 45}},
+                     '+group3': {'deep': {'id': {'number': 45}}, 'fee': 100500}}
 
-    converted_file1 = convert2_json(file1)
-    converted_file2 = convert2_json(file2)
+file1_deep = convert2_json('tests/fixtures/deep_files/file1.json')
+file2_deep = convert2_json('tests/fixtures/deep_files/file2.json')
 
-    assert generate_diff(converted_file1, converted_file2) == expected_res
-
-
-def test_simple_gendiff_yaml():
-    expected_res = {'-follow': False,
-                    '%host': 'hexlet.io',
-                    '-proxy': '123.234.53.22',
-                    '-timeout': 50,
-                    '+timeout': 20,
-                    '+verbose': True}
-
-    file1 = 'tests/fixtures/simple_files/file1.yaml'
-    file2 = 'tests/fixtures/simple_files/file2.yaml'
-
-    converted_file1 = convert2_yaml(file1)
-    converted_file2 = convert2_yaml(file2)
-
-    assert generate_diff(converted_file1, converted_file2) == expected_res
+file1_simple = convert2_json('tests/fixtures/simple_files/file1.json')
+file2_simple = convert2_json('tests/fixtures/simple_files/file2.json')
 
 
-def test_depth_gendiff_json():
-    expected_res = {'common': {'+follow': False,
-                               '%setting1': 'Value 1',
-                               '-setting2': 200,
-                               '-setting3': True,
-                               '+setting3': None,
-                               '+setting4': 'blah blah',
-                               '+setting5': {'key5': 'value5'},
-                               'setting6': {'doge': {'-wow': '', '+wow': 'so much'},
-                                            '%key': 'value', '+ops': 'vops'}},
-                    'group1': {'-baz': 'bas',
-                               '+baz': 'bars',
-                               '%foo': 'bar',
-                               '-nest': {'key': 'value'},
-                               '+nest': 'str'},
-                    '-group2': {'abc': 12345, 'deep': {'id': 45}},
-                    '+group3': {'deep': {'id': {'number': 45}}, 'fee': 100500}}
-
-    file1 = 'tests/fixtures/deep_files/file1.json'
-    file2 = 'tests/fixtures/deep_files/file2.json'
-
-    converted_file1 = convert2_json(file1)
-    converted_file2 = convert2_json(file2)
-
-    assert generate_diff(converted_file1, converted_file2) == expected_res
+@pytest.mark.parametrize("test_input1,test_input2,expected",
+                         [(file1_deep, file2_deep, expected_res_deep),
+                          (file1_simple, file2_simple, expected_res_simple)])
+def test_gendiff(test_input1, test_input2, expected):
+    assert generate_diff(test_input1, test_input2) == expected
 
 
-def test_depth_gendiff_yaml():
-    expected_res = {'common': {'+follow': False,
-                               '%setting1': 'Value 1',
-                               '-setting2': 200,
-                               '-setting3': True,
-                               '+setting3': None,
-                               '+setting4': 'blah blah',
-                               '+setting5': {'key5': 'value5'},
-                               'setting6': {'doge': {'-wow': '', '+wow': 'so much'},
-                                            '%key': 'value', '+ops': 'vops'}},
-                    'group1': {'-baz': 'bas',
-                               '+baz': 'bars',
-                               '%foo': 'bar',
-                               '-nest': {'key': 'value'},
-                               '+nest': 'str'},
-                    '-group2': {'abc': 12345, 'deep': {'id': 45}},
-                    '+group3': {'deep': {'id': {'number': 45}}, 'fee': 100500}}
-
-    file1 = 'tests/fixtures/deep_files/file1.yml'
-    file2 = 'tests/fixtures/deep_files/file2.yml'
-
-    converted_file1 = convert2_yaml(file1)
-    converted_file2 = convert2_yaml(file2)
-
-    assert generate_diff(converted_file1, converted_file2) == expected_res
+@pytest.mark.parametrize("value1,value2,key,expected",
+                         [(False, '&', 'follow', ('-follow', False)),
+                          ('&', True, 'verbose', ('+verbose', True)),
+                          (50, 20, 'timeout', (('-timeout', 50), ('+timeout', 20))),
+                          ('hexlet.io', 'hexlet.io', 'host', ('%host', 'hexlet.io'))])
+def test_pair_gen(value1, value2, key, expected):
+    assert pair_gen(value1, value2, key) == expected
 
 
-def test_pair_gen():
-    expected_res1 = ('-follow', False)
-    expected_res2 = ('+verbose', True)
-    expected_res3 = (('-timeout', 50), ('+timeout', 20))
-    expected_res4 = ('%host', 'hexlet.io')
+expected_tree1 = {'-follow': False,
+                  '%host': 'hexlet.io',
+                  '-proxy': '123.234.53.22',
+                  '-timeout': 50,
+                  '+timeout': 20,
+                  '+verbose': True}
 
-    assert pair_gen(False, '&', 'follow') == expected_res1
-    assert pair_gen('&', True, 'verbose') == expected_res2
-    assert pair_gen(50, 20, 'timeout') == expected_res3
-    assert pair_gen('hexlet.io', 'hexlet.io', 'host') == expected_res4
+expected_tree2 = (
+    'group1',
+    {
+        '-baz': 'bas',
+        '+baz': 'bars',
+        '%foo': 'bar',
+        '-nest': {'key': 'value'},
+        '+nest': 'str'
+    }
+)
+
+key1 = 0
+new_children1 = [('-follow', False),
+                 ('%host', 'hexlet.io'),
+                 ('-proxy', '123.234.53.22'),
+                 (('-timeout', 50), ('+timeout', 20)),
+                 ('+verbose', True)]
+
+key2 = 'group1'
+new_children2 = [(('-baz', 'bas'), ('+baz', 'bars')),
+                 ('%foo', 'bar'),
+                 (('-nest', {'key': 'value'}), ('+nest', 'str'))]
 
 
-def test_new_tree_gen():
-    excepted_res1 = {'-follow': False,
-                     '%host': 'hexlet.io',
-                     '-proxy': '123.234.53.22',
-                     '-timeout': 50,
-                     '+timeout': 20,
-                     '+verbose': True}
-    excepted_res2 = (
-        'group1',
-        {
-            '-baz': 'bas',
-            '+baz': 'bars',
-            '%foo': 'bar',
-            '-nest': {'key': 'value'},
-            '+nest': 'str'
-        }
-    )
-
-    key1 = 0
-    new_children1 = [('-follow', False),
-                     ('%host', 'hexlet.io'),
-                     ('-proxy', '123.234.53.22'),
-                     (('-timeout', 50), ('+timeout', 20)),
-                     ('+verbose', True)]
-
-    key2 = 'group1'
-    new_children2 = [(('-baz', 'bas'), ('+baz', 'bars')),
-                     ('%foo', 'bar'),
-                     (('-nest', {'key': 'value'}), ('+nest', 'str'))]
-
-    assert new_tree_gen(key1, new_children1) == excepted_res1
-    assert new_tree_gen(key2, new_children2) == excepted_res2
+@pytest.mark.parametrize("key,new_children,expected",
+                         [(key1, new_children1, expected_tree1),
+                          (key2, new_children2, expected_tree2)])
+def test_new_tree_gen(key, new_children, expected):
+    assert new_tree_gen(key, new_children) == expected

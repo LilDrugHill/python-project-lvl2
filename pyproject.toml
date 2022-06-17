@@ -1,9 +1,9 @@
 [tool.poetry]
 name = "hexlet-code"
-version = "0.1.0"
+version = "1.0.1"
 description = ""
 authors = ["LilDrugHill <smookigrow@icloud.com>"]
-packages = [{ include = "gendiff" }, { include = "plain" }, { include = "stylish" }]
+packages = [{ include = "gendiff" },]
 
 [tool.poetry.dependencies]
 python = "^3.10"

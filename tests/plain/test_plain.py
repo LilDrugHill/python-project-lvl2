@@ -1,6 +1,6 @@
-from plain.plain import plain
-from gendiff.gendiff import generate_diff
-from gendiff.convertors.json import convert as convert2_json
+from formatters.plain import plain
+from gendiff.comparator import generate_diff
+from gendiff.json_convertor import convert as convert2_json
 
 
 def test_simple_plain():

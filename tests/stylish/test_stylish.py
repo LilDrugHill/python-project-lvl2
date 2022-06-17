@@ -1,6 +1,6 @@
-from stylish.stylish import stringify
-from gendiff.gendiff import generate_diff
-from gendiff.convertors.yaml import convert as convert2_yaml
+from formatters.stylish import stringify
+from gendiff.comparator import generate_diff
+from gendiff.yaml_convertor import convert as convert2_yaml
 
 
 def test_simple_stylish():
