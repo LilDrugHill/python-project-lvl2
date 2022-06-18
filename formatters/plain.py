@@ -26,7 +26,6 @@ def plain(tree):
 def gen_diff_string(node, path):
     key = node[0]
     value1 = node[1]
-    print(node, path)
 
     value1 = safe_value_vison(value1)
 
