@@ -1,5 +1,5 @@
 from formatters.plain import plain
-from gendiff.comparator import generate_diff
+from gendiff.comparator import comparator
 from gendiff.json_convertor import convert as convert2_json
 
 
@@ -11,7 +11,7 @@ def test_simple_plain():
 
     file1 = 'tests/fixtures/simple_files/file1.json'
     file2 = 'tests/fixtures/simple_files/file2.json'
-    data = generate_diff(convert2_json(file1), convert2_json(file2))
+    data = comparator(convert2_json(file1), convert2_json(file2))
 
     assert plain(data) == expected_string
 
@@ -24,6 +24,6 @@ def test_deep_plain():
 
     file1 = 'tests/fixtures/deep_files/file1.json'
     file2 = 'tests/fixtures/deep_files/file2.json'
-    data = generate_diff(convert2_json(file1), convert2_json(file2))
+    data = comparator(convert2_json(file1), convert2_json(file2))
 
     assert plain(data) == expected_string

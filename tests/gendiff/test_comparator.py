@@ -1,5 +1,5 @@
 import pytest
-from gendiff.comparator import generate_diff, pair_gen, new_tree_gen
+from gendiff.comparator import comparator, pair_gen, new_tree_gen
 from gendiff.json_convertor import convert as convert2_json
 
 
@@ -36,8 +36,8 @@ file2_simple = convert2_json('tests/fixtures/simple_files/file2.json')
 @pytest.mark.parametrize("test_input1,test_input2,expected",
                          [(file1_deep, file2_deep, expected_res_deep),
                           (file1_simple, file2_simple, expected_res_simple)])
-def test_gendiff(test_input1, test_input2, expected):
-    assert generate_diff(test_input1, test_input2) == expected
+def test_comparator(test_input1, test_input2, expected):
+    assert comparator(test_input1, test_input2) == expected
 
 
 @pytest.mark.parametrize("value1,value2,key,expected",

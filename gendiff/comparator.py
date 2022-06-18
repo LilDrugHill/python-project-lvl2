@@ -1,10 +1,4 @@
-from gendiff.input_files_parser import parse_input_format
-from formatters.formatter import change_format as output_format
-
-
-def generate_diff(args, file1, file2):
-
-    file1, file2 = parse_input_format(args)
+def comparator(file1, file2):
 
     def walk(node1, node2, key=0):
 
@@ -20,7 +14,7 @@ def generate_diff(args, file1, file2):
 
         return new_tree_gen(key, new_children)
 
-    return output_format(args, walk(file1, file2))
+    return walk(file1, file2)
 
 
 def pair_gen(node1, node2, key):
