@@ -89,8 +89,8 @@ def visuality(data):
 
 def safe_value_vison(value):
     if isinstance(value, dict):
-        value = f'(complex value)'
+        value = '(complex value)'
     elif isinstance(value, str):
         value = f'*{value}*'
-    
+
     return value
