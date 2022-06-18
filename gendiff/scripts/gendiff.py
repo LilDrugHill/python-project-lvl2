@@ -7,13 +7,10 @@ from formatters.formatter import change_format as output_format
 
 
 def main():
+
     args = parse()
 
-    file1, file2 = parse_input_format(args)
-
-    diff_tree = generate_diff(file1, file2)
-
-    print(output_format(args, diff_tree))
+    print(generate_diff(args, args.first_file, args.second_file))
 
 
 if __name__ == '__main__':
