@@ -12,3 +12,6 @@ def parse():
     args = parser.parse_args()
 
     return args
+
+
+ARGS = parse()
