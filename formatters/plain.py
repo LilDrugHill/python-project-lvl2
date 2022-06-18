@@ -1,7 +1,6 @@
 def plain(tree):
 
     def walk(node, path):
-        print(node)
         if (
             isinstance(node, tuple)
             and (node[0][0] == '+' or node[0][0] == '-' or node[0][0] == '%' or len(node) == 3)
@@ -15,34 +14,34 @@ def plain(tree):
             path += f'{node[0]}.'
             children = list(node[1].items())
 
-        children = diff_change(children)
+        children = change_children(children)
 
         data = str(list(map(lambda child: walk(child, path), children)))
 
         return data
 
-    return visual(walk(tree, ''))
+    return visuality(walk(tree, ''))
 
 
 def gen_diff_string(node, path):
     key = node[0]
     value1 = node[1]
+    print(node, path)
 
-    if isinstance(value1, dict):
-        value1 = '(complex value)'
+    value1 = safe_value_vison(value1)
 
     if len(node) == 3 and isinstance(node[2], dict):
-        value2 = '(complex value)'
+        value2 = safe_value_vison(node[2])
         path += f'{key}'
-        return f"Property *{path}* was updated. From *{value1}* to *{value2}*"
+        return f"Property *{path}* was updated. From {value1} to {value2}"
     elif len(node) == 3 and not isinstance(node[2], dict):
-        value2 = node[2]
+        value2 = safe_value_vison(node[2])
         path += f'{key}'
-        return f"Property *{path}* was updated. From *{value1}* to *{value2}*"
+        return f"Property *{path}* was updated. From {value1} to {value2}"
 
     if key[0] == '+':
         path += f'{key[1:]}'
-        return f"Property *{path}* was added with value: *{value1}*"
+        return f"Property *{path}* was added with value: {value1}"
     elif key[0] == '-':
         path += f'{key[1:]}'
         return f"Property *{path}* was removed"
@@ -50,7 +49,7 @@ def gen_diff_string(node, path):
         return '&'
 
 
-def diff_change(children):
+def change_children(children):
     children.append(('&', '&'))
 
     for child1, child2 in zip(children, children[1:]):
@@ -74,14 +73,24 @@ def diff_change(children):
     return children
 
 
-def visual(data):
+def visuality(data):
     changed_data = (data
                     .replace('[', '').replace(']', '')
-                    .replace("'", '').replace('"', '')
-                    .replace('*', "'").replace(', ', '\n')
-                    .replace("'(", '[').replace(")'", ']')
-                    .replace('\\', '').replace('&\n', '')
-                    .replace("'True'", 'true')
-                    .replace("'None'", 'null')
-                    .replace("'False'", 'false'))
+                    .replace('"', '').replace("'", '')
+                    .replace(', ', '\n')
+                    .replace("(", '[').replace(")", ']')
+                    .replace('\\', '').replace("&\n", '')
+                    .replace('*', "'")
+                    .replace("True", 'true')
+                    .replace('None', 'null')
+                    .replace("False", 'false'))
     return changed_data
+
+
+def safe_value_vison(value):
+    if isinstance(value, dict):
+        value = f'(complex value)'
+    elif isinstance(value, str):
+        value = f'*{value}*'
+    
+    return value
