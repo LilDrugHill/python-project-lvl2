@@ -12,7 +12,7 @@ def parse_input_format(file1, file2):
 
     if file2[-4:] == 'json':
         file2 = convert_json(file2)
-    elif file2[-4:] == 'yaml' or file2[-4:] == 'yml':
+    elif file2[-4:] == 'yaml' or file2[-3:] == 'yml':
         file2 = convert_yaml(file2)
     else:
         raise ValueError("Wrong input format (second file)")
