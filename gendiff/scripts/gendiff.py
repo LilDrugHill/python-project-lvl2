@@ -3,7 +3,7 @@
 from gendiff.arg_parser import parse
 from gendiff.input_files_parser import parse_input_format
 from gendiff.comparator import comparator
-from formatters.formatter import change_format as output_format
+from formatters.formatter import choose_format as output_format
 
 
 def main():
@@ -13,7 +13,7 @@ def main():
 
     diff_tree = comparator(file1, file2)
 
-    print(output_format(args, diff_tree))
+    print(output_format(args.format, diff_tree))
 
 
 if __name__ == '__main__':

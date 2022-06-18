@@ -3,10 +3,10 @@ from formatters.plain import plain
 from formatters.stylish import stringify
 
 
-def change_format(args, diff_tree):
-    if args.format is None:
+def choose_format(format, diff_tree):
+    if format is None or format == 'stylish':
         return stringify(diff_tree)
-    elif args.format == 'plain':
+    elif format == 'plain':
         return plain(diff_tree)
-    elif args.format == 'json':
+    elif format == 'json':
         return json_format(diff_tree)
