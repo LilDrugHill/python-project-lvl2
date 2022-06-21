@@ -1,6 +1,6 @@
 from formatters.stylish import stringify
 from gendiff.comparator import comparator
-from gendiff.yaml_convertor import convert as convert2_yaml
+from gendiff.input_files_parser import parse_input_format
 
 
 def test_simple_stylish():
@@ -9,9 +9,10 @@ def test_simple_stylish():
     with open(output_fixture, encoding='utf-8') as read_file:
         expected_string = read_file.read()
 
-    file1 = 'tests/fixtures/simple_files/file1.yaml'
-    file2 = 'tests/fixtures/simple_files/file2.yaml'
-    data = comparator(convert2_yaml(file1), convert2_yaml(file2))
+    file1_path = 'tests/fixtures/simple_files/file1.yaml'
+    file2_path = 'tests/fixtures/simple_files/file2.yaml'
+    file1, file2 = parse_input_format(file1_path, file2_path)
+    data = comparator(file1, file2)
 
     assert stringify(data) == expected_string
 
@@ -22,8 +23,9 @@ def test_deep_stylish():
     with open(output_fixture, encoding='utf-8') as read_file:
         expected_string = read_file.read()
 
-    file1 = 'tests/fixtures/deep_files/file1.yml'
-    file2 = 'tests/fixtures/deep_files/file2.yml'
-    data = comparator(convert2_yaml(file1), convert2_yaml(file2))
+    file1_path = 'tests/fixtures/deep_files/file1.yml'
+    file2_path = 'tests/fixtures/deep_files/file2.yml'
+    file1, file2 = parse_input_format(file1_path, file2_path)
+    data = comparator(file1, file2)
 
     assert stringify(data) == expected_string

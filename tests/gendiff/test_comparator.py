@@ -1,6 +1,6 @@
 import pytest
 from gendiff.comparator import comparator, pair_gen, new_tree_gen
-from gendiff.json_convertor import convert as convert2_json
+from gendiff.input_files_parser import parse_input_format
 
 
 expected_res_simple = {'-follow': False,
@@ -26,18 +26,17 @@ expected_res_deep = {'common': {'+follow': False,
                      '-group2': {'abc': 12345, 'deep': {'id': 45}},
                      '+group3': {'deep': {'id': {'number': 45}}, 'fee': 100500}}
 
-file1_deep = convert2_json('tests/fixtures/deep_files/file1.json')
-file2_deep = convert2_json('tests/fixtures/deep_files/file2.json')
 
-file1_simple = convert2_json('tests/fixtures/simple_files/file1.json')
-file2_simple = convert2_json('tests/fixtures/simple_files/file2.json')
-
-
-@pytest.mark.parametrize("test_input1,test_input2,expected",
-                         [(file1_deep, file2_deep, expected_res_deep),
-                          (file1_simple, file2_simple, expected_res_simple)])
-def test_comparator(test_input1, test_input2, expected):
-    assert comparator(test_input1, test_input2) == expected
+@pytest.mark.parametrize("file_path1,file_path2,expected",
+                         [('tests/fixtures/deep_files/file1.json',
+                           'tests/fixtures/deep_files/file2.json',
+                           expected_res_deep),
+                          ('tests/fixtures/simple_files/file1.json',
+                           'tests/fixtures/simple_files/file2.json',
+                           expected_res_simple)])
+def test_comparator(file_path1, file_path2, expected):
+    file1, file2 = parse_input_format(file_path1, file_path2)
+    assert comparator(file1, file2) == expected
 
 
 @pytest.mark.parametrize("value1,value2,key,expected",

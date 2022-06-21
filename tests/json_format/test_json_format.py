@@ -1,7 +1,7 @@
 import json
 from gendiff.comparator import comparator
 from formatters.json_format import json_format
-from gendiff.json_convertor import convert as convert2_json
+from gendiff.input_files_parser import parse_input_format
 
 
 def test_json_format_deep():
@@ -11,8 +11,9 @@ def test_json_format_deep():
         read_file = json.load(read_file)
         expected_data = json.dumps(read_file, indent=4)
 
-    file1 = 'tests/fixtures/deep_files/file1.json'
-    file2 = 'tests/fixtures/deep_files/file2.json'
-    data = comparator(convert2_json(file1), convert2_json(file2))
+    file1_path = 'tests/fixtures/deep_files/file1.json'
+    file2_path = 'tests/fixtures/deep_files/file2.json'
+    file1, file2 = parse_input_format(file1_path, file2_path)
+    data = comparator(file1, file2)
 
     assert json_format(data) == expected_data

@@ -1,4 +1,7 @@
-def stringify(value, replacer=' ', spaces_count=4):
+def stringify(value):
+    replacer = ' '
+    spaces_count = 4
+
     def walk(node, depth, path):
 
         if isinstance(node, tuple) and not isinstance(node[1], dict):
@@ -23,8 +26,7 @@ def stringify(value, replacer=' ', spaces_count=4):
     elif isinstance(value, dict):
         return visual(walk(value, 0, ''), replacer, spaces_count)
 
-    else:
-        return str(value)
+    return str(value)
 
 
 def visual(value, replacer, spaces_count):

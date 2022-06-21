@@ -1,6 +1,6 @@
 from gendiff.input_files_parser import parse_input_format
 from gendiff.comparator import comparator
-from formatters.formatter import choose_format
+from gendiff.formatter import format as choose_format
 
 
 def generate_diff(file_path1, file_path2, format=None):
