@@ -40,7 +40,6 @@ def pair_gen(node1, node2, key):
 def new_tree_gen(key, new_children):
     new_sorted_children = []
     new_values = []
-    print(key, new_children)
     for child in new_children:  # new_children=[(+/-/%key, value), ((-key, value1), (+key, value2))]
         if isinstance(child[0], tuple):  # input ((-key, value1), (+key, value2))
             new_sorted_children.append(child[0][0])
