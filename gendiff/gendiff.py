@@ -5,6 +5,6 @@ from gendiff.comparator import comparator
 
 def generate_diff(file_path1, file_path2, format=None):
 
-    file1, file2 = parse_input(file_path1, file_path2)
+    file1, file2 = parse_input(file_path1), parse_input(file_path2)
 
     return format_output(format, comparator(file1, file2))
