@@ -20,7 +20,7 @@ def plain(tree):
 
         return data
 
-    return visuality(walk(tree, ''))
+    return to_str(walk(tree, ''))
 
 
 def gen_diff_string(node, path):
@@ -72,7 +72,7 @@ def change_children(children):
     return children
 
 
-def visuality(data):
+def to_str(data):
     changed_data = (data
                     .replace('[', '').replace(']', '')
                     .replace('"', '').replace("'", '')

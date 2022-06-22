@@ -1,6 +1,6 @@
 import pytest
 from gendiff.comparator import comparator, pair_gen, new_tree_gen
-from gendiff.input_files_parser import parse_input_format
+from gendiff.input_output_parser import parse_input
 
 
 expected_res_simple = {'-follow': False,
@@ -35,7 +35,7 @@ expected_res_deep = {'common': {'+follow': False,
                            'tests/fixtures/simple_files/file2.json',
                            expected_res_simple)])
 def test_comparator(file_path1, file_path2, expected):
-    file1, file2 = parse_input_format(file_path1, file_path2)
+    file1, file2 = parse_input(file_path1), parse_input(file_path2)
     assert comparator(file1, file2) == expected
 
 

@@ -1,10 +1,10 @@
-from gendiff.input_files_parser import parse_input_format
+from gendiff.input_output_parser import parse_input
+from gendiff.input_output_parser import format as format_output
 from gendiff.comparator import comparator
-from gendiff.formatter import format as choose_format
 
 
 def generate_diff(file_path1, file_path2, format=None):
 
-    file1, file2 = parse_input_format(file_path1, file_path2)
+    file1, file2 = parse_input(file_path1, file_path2)
 
-    return choose_format(format, comparator(file1, file2))
+    return format_output(format, comparator(file1, file2))

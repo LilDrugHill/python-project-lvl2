@@ -41,14 +41,20 @@ def new_tree_gen(key, new_children):
     new_sorted_children = []
     new_values = []
     for child in new_children:  # new_children=[(+/-/%key, value), ((-key, value1), (+key, value2))]
-        if isinstance(child[0], tuple):  # input ((-key, value1), (+key, value2))
-            new_sorted_children.append(child[0][0])
-            new_sorted_children.append(child[1][0])
-            new_values.append(child[0][1])
-            new_values.append(child[1][1])
-        elif isinstance(child, tuple):  # input (+/-/%key, value)
-            new_sorted_children.append(child[0])
-            new_values.append(child[1])
+        diff_key = child[0]
+        diff_value = child[1]
+        if isinstance(diff_key, tuple):  # input ((-key, value1), (+key, value2))
+            neg_key = child[0][0]
+            pos_key = child[1][0]
+            neg_key_value = child[0][1]
+            pos_key_value = child[1][1]
+            new_sorted_children.append(neg_key)
+            new_sorted_children.append(pos_key)
+            new_values.append(neg_key_value)
+            new_values.append(pos_key_value)
+        else:  # input (+/-/%key, value)
+            new_sorted_children.append(diff_key)
+            new_values.append(diff_value)
 
     new_tree = {key: new_children for key, new_children in zip(new_sorted_children, new_values)}
     if key != 0:
