@@ -58,7 +58,6 @@ def to_str(data):
                      .replace('"', '')
                      .replace('\\', '')
                      .replace('  +', '+ ')
-                     .replace('  -', '- ')
-                     .replace('%', ''))
+                     .replace('  -', '- '))
 
     return completed_str

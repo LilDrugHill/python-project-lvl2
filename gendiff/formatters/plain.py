@@ -1,9 +1,15 @@
 def plain(tree):
 
     def walk(node, path):
+
         if (
             isinstance(node, tuple)
-            and (node[0][0] == '+' or node[0][0] == '-' or node[0][0] == '%' or len(node) == 3)
+            and (
+                node[0][0] == '+'
+                or node[0][0] == '-'
+                or not isinstance(node[1], dict)
+                or len(node) == 3
+            )
         ):
             return gen_diff_string(node, path)
 

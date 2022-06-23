@@ -1,17 +1,18 @@
 #!/usr/bin/env python
 
 from gendiff.cli import parse
-from gendiff.input_output_parser import parse_input, format
-from gendiff.comparator import comparator
+from gendiff.input_parser import read_file
+from gendiff.comparator import build_diff_tree
+from gendiff.formatters.formatter import format
 
 
 def main():
     args = parse()
 
-    file1, file2 = parse_input(args.first_file), parse_input(args.second_file)
+    file1, file2 = read_file(args.first_file), read_file(args.second_file)
 
-    diff_tree = comparator(file1, file2)
-
+    diff_tree = build_diff_tree(file1, file2)
+    print(diff_tree)
     print(format(args.format, diff_tree))
 
 
