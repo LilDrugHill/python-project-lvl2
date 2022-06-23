@@ -42,7 +42,6 @@ def pair_gen(node1, node2, key):
 
 
 def new_children_and_values_gen(new_children):
-    print(new_children, 124151)
     new_sorted_children = []
     new_values = []
     for child in new_children:
@@ -65,5 +64,5 @@ def new_children_and_values_gen(new_children):
         else:
             new_sorted_children.append(f'{child_key}')
             new_values.append(child[child_key])
-    print(new_sorted_children, new_values, 7987554)
+
     return new_sorted_children, new_values
