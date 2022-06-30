@@ -4,7 +4,6 @@ EMPTY_VALUE = '&'
 def build_diff_tree(first_tree, second_tree):
 
     def walk(node1, node2, key=0):
-        print(node1, node2, key, 11111111111)
         if not isinstance(node1, dict) or not isinstance(node2, dict):
 
             return pair_gen(node1, node2, key)
@@ -15,13 +14,11 @@ def build_diff_tree(first_tree, second_tree):
         diff_children = list(map(
             lambda child: walk(node1.get(child, EMPTY_VALUE), node2.get(child, EMPTY_VALUE), child),
             sorted_children))
-        print(diff_children, key, 999999999)
 
         new_children = {}
         for child in diff_children:
             new_children.update(child)
 
-        print(new_children, 23232323)
         if key != 0:
             new_children = {key: new_children}
 

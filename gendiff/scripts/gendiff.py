@@ -12,7 +12,7 @@ def main():
     file1, file2 = get_data(args.first_file), get_data(args.second_file)
 
     diff_tree = build_diff_tree(file1, file2)
-    print(diff_tree)
+
     print(format(diff_tree, args.format))
 
 

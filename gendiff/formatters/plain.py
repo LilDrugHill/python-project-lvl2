@@ -4,7 +4,6 @@ NOTHING = '&'
 def plain(tree):
 
     def walk(node, path, key=None):
-        print(node)
         if node.get('action'):
             return build_string(node, path, key)
 
