@@ -7,4 +7,4 @@ def generate_diff(file_path1, file_path2, format=None):
 
     data1, data2 = get_data(file_path1), get_data(file_path2)
 
-    return format_output(format, build_diff_tree(data1, data2))
+    return format_output(build_diff_tree(data1, data2), format)

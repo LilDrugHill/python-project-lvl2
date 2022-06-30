@@ -4,7 +4,7 @@ from gendiff.formatters.json_format import json_format
 
 
 def format(tree, format_name):
-    if format_name == 'stylish':
+    if format_name == 'stylish' or not format_name:
         return stringify(tree)
     elif format_name == 'plain':
         return plain(tree)
