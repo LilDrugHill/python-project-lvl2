@@ -1,5 +1,5 @@
 import pytest
-from gendiff.input_parser import read_file
+from gendiff.input_parser import get_data
 
 
 @pytest.mark.parametrize("fixture_path,expected",
@@ -18,4 +18,4 @@ from gendiff.input_parser import read_file
                           ('tests/fixtures/simple_files/file2.yaml',
                            {'host': 'hexlet.io', 'timeout': 20, 'verbose': True})])
 def test_input_parser(fixture_path, expected):
-    assert read_file(fixture_path) == expected
+    assert get_data(fixture_path) == expected

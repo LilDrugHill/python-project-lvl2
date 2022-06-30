@@ -1,81 +1,46 @@
+NOTHING = '&'
+
+
 def plain(tree):
 
-    def walk(node, path):
+    def walk(node, path, key=None):
+        print(node)
+        if node.get('action'):
+            return build_string(node, path, key)
 
-        if (
-            isinstance(node, tuple)
-            and (
-                node[0][0] == '+'
-                or node[0][0] == '-'
-                or not isinstance(node[1], dict)
-                or len(node) == 3
-            )
-        ):
-            return gen_diff_string(node, path)
-
-        if isinstance(node, dict):
-            children = list(node.items())
+        if not key:
+            children = node.keys()
 
         else:
-            path += f'{node[0]}.'
-            children = list(node[1].items())
+            path += f'{key}.'
+            children = node.keys()
 
-        children = change_children(children)
-
-        data = str(list(map(lambda child: walk(child, path), children)))
+        data = str(list(map(lambda child: walk(node.get(child), path, child), children)))
 
         return data
 
     return to_str(walk(tree, ''))
 
 
-def gen_diff_string(node, path):
-    key = node[0]
-    value1 = node[1]
+def build_string(node, path, key):
 
-    value1 = safe_value_vison(value1)
+    value1 = safe_value_vison(node.get('node1'))
+    value2 = safe_value_vison(node.get('node2'))
+    action = node.get('action')
 
-    if len(node) == 3 and isinstance(node[2], dict):
-        value2 = safe_value_vison(node[2])
+    if action == 'add':
         path += f'{key}'
-        return f"Property *{path}* was updated. From {value1} to {value2}"
-    elif len(node) == 3 and not isinstance(node[2], dict):
-        value2 = safe_value_vison(node[2])
-        path += f'{key}'
-        return f"Property *{path}* was updated. From {value1} to {value2}"
+        return f"Property *{path}* was added with value: {value2}"
 
-    if key[0] == '+':
-        path += f'{key[1:]}'
-        return f"Property *{path}* was added with value: {value1}"
-    elif key[0] == '-':
-        path += f'{key[1:]}'
+    elif action == 'remove':
+        path += f'{key}'
         return f"Property *{path}* was removed"
-    else:
-        return '&'
 
+    elif action == 'changed':
+        path += f'{key}'
+        return f"Property *{path}* was updated. From {value1} to {value2}"
 
-def change_children(children):
-    children.append(('&', '&'))
-
-    for child1, child2 in zip(children, children[1:]):
-        if (
-            child1[0][1:] == child2[0][1:]
-            and (child1[0][0] == '-' or child1[0][0] == '+')
-            and child1[1] != child2[1]
-        ):
-            key = child1[0][1:]
-            value1 = child1[1]
-            value2 = child2[1]
-            place = children.index(child1)
-            children.pop(place)
-            children.pop(place)
-            children.insert(place, (key, value1, value2))
-            children.insert(0, ('&', '&'))
-
-    while ('&', '&') in children:
-        children.remove(('&', '&'))
-
-    return children
+    return NOTHING
 
 
 def to_str(data):
@@ -95,7 +60,8 @@ def to_str(data):
 def safe_value_vison(value):
     if isinstance(value, dict):
         value = '(complex value)'
+
     elif isinstance(value, str):
-        value = f'*{value}*'
+        value = f"*{value}*"
 
     return value

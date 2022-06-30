@@ -4,7 +4,7 @@ from gendiff.formatters.json_format import json_format
 from gendiff.formatters.plain import plain
 from gendiff.formatters.stylish import stringify
 from gendiff.comparator import build_diff_tree
-from gendiff.input_parser import read_file as read_file_formated
+from gendiff.input_parser import get_data
 
 
 @pytest.mark.parametrize("formater,input1,input2,output",
@@ -37,6 +37,6 @@ def test_formatters(formater, input1, input2, output):
         with open(output, encoding='utf-8') as read_file:
             output = read_file.read()
 
-    data1, data2 = read_file_formated(input1), read_file_formated(input2)
+    data1, data2 = get_data(input1), get_data(input2)
 
     assert formater(build_diff_tree(data1, data2)) == output
