@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 
 from gendiff.cli import parse
-from gendiff.input_parser import get_data
+from gendiff.parser import get_data
 from gendiff.comparator import build_diff_tree
-from gendiff.formatter import format
+from gendiff.formatters import format
 
 
 def main():

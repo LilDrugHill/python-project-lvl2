@@ -26,18 +26,16 @@ def build_string(node, path, key):
     value1 = safe_value_vison(node.get('node1'))
     value2 = safe_value_vison(node.get('node2'))
     action = node.get('action')
-
-    if action == 'add':
-        path += f'{key}'
-        return f"Property *{path}* was added with value: {value2}"
-
-    elif action == 'remove':
-        path += f'{key}'
-        return f"Property *{path}* was removed"
-
-    elif action == 'changed':
-        path += f'{key}'
-        return f"Property *{path}* was updated. From {value1} to {value2}"
+    match action:
+        case 'add':
+            path += f'{key}'
+            return f"Property *{path}* was added with value: {value2}"
+        case 'remove':
+            path += f'{key}'
+            return f"Property *{path}* was removed"
+        case 'changed':
+            path += f'{key}'
+            return f"Property *{path}* was updated. From {value1} to {value2}"
 
     return NOTHING
 

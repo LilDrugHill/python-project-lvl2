@@ -12,8 +12,7 @@ def change_structure(value):
         if node.get('action'):
             return build_leaf(node, key)
 
-        if not node.get('action'):
-            children = node.keys()
+        children = node.keys()
 
         children = list(map(lambda child: walk(node.get(child), child), children))
 
@@ -33,13 +32,15 @@ def build_leaf(node, key):
     value1 = node.get('node1')
     value2 = node.get('node2')
     action = node.get('action')
-    if action == 'add':
-        return {f'+{key}': value2}
-    elif action == 'remove':
-        return {f'-{key}': value1}
-    elif action == 'changed':
-        return {f'-{key}': value1, f'+{key}': value2}
-    return {f'{key}': value1}
+    match action:
+        case 'add':
+            return {f'+{key}': value2}
+        case 'remove':
+            return {f'-{key}': value1}
+        case 'changed':
+            return {f'-{key}': value1, f'+{key}': value2}
+        case 'nested':
+            return {f'{key}': value1}
 
 
 def stringify(value):
@@ -49,7 +50,7 @@ def stringify(value):
             return str(current_value)
 
         deep_indent_size = depth + SPACE_COUNT
-        deep_indent = REPLACER * (deep_indent_size)
+        deep_indent = REPLACER * deep_indent_size
         current_indent = REPLACER * depth
         lines = []
         for key, val in current_value.items():
@@ -57,10 +58,7 @@ def stringify(value):
         result = itertools.chain("{", lines, [current_indent + "}"])
         return '\n'.join(result)
 
-    if isinstance(value, dict):
-        return replace_(walk(change_structure(value), 0))
-
-    return str(value)
+    return replace_(walk(change_structure(value), 0))
 
 
 def replace_(value):

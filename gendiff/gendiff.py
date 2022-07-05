@@ -1,5 +1,5 @@
-from gendiff.input_parser import get_data
-from gendiff.formatter import format as format_output
+from gendiff.parser import get_data
+from gendiff.formatters import format as format_output
 from gendiff.comparator import build_diff_tree
 
 
