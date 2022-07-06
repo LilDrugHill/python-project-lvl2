@@ -12,5 +12,3 @@ def format(tree, format_name):
         case 'json':
             return json_format(tree)
     raise ValueError("Non-existent format")
-
-
