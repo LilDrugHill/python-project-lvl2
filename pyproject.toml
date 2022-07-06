@@ -8,13 +8,14 @@ packages = [{ include = "gendiff" },]
 [tool.poetry.dependencies]
 python = "^3.10"
 PyYAML = "^6.0"
-black = "^22.6.0"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^4.0.1"
 pytest = "^7.1.2"
 asciinema = "^2.2.0"
 pytest-cov = "^3.0.0"
+pylint = "^2.14.4"
+black = "^22.6.0"
 
 
 [tool.poetry.scripts]

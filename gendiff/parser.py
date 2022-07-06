@@ -1,7 +1,8 @@
 import json
-import yaml
-from os import path
 import sys
+from os import path
+
+import yaml
 
 
 def get_data(file_path):
@@ -16,8 +17,8 @@ def get_data(file_path):
 
 def parse(data, data_format):
 
-    if data_format == 'json':
+    if data_format in ('json',):
         return json.load(data)
-    elif data_format == 'yaml' or data_format == 'yml':
+    if data_format in ('yaml', 'yml'):
         return yaml.safe_load(data)
     raise ValueError('Wrong input format. Use yml/yaml or json formats')

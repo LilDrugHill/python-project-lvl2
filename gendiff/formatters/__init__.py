@@ -3,7 +3,7 @@ from gendiff.formatters.plain import plain
 from gendiff.formatters.json_format import json_format
 
 
-def format(tree, format_name):
+def format_(tree, format_name):
     match format_name:
         case 'stylish' | None:
             return stylish(tree)

@@ -45,8 +45,7 @@ def build_string(node, path, key):
         case "changed":
             path += f"{key}"
             return f"Property '{path}' was updated. From {value1} to {value2}"
-
-    pass
+    return None
 
 
 def safe_value_vison(value):
