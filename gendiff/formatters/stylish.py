@@ -8,7 +8,6 @@ REMOVE = "- "
 
 
 def stylish(tree):
-    print(tree)
 
     def walk(node, depth):
         if not isinstance(node, dict):
