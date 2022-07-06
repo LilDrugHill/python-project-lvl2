@@ -1,3 +1,6 @@
+from gendiff.formatters.stylish import json_value  # Change None, False, True -> null, false, true
+
+
 NOTHING = '&'
 
 
@@ -14,11 +17,11 @@ def plain(tree):
             path += f'{key}.'
             children = node.keys()
 
-        data = str(list(map(lambda child: walk(node.get(child), path, child), children)))
+        data = list(filter(lambda unit: unit is not None, map(lambda child: walk(node.get(child), path, child), children)))
 
-        return data
+        return '\n'.join(data)
 
-    return to_str(walk(tree, ''))
+    return walk(tree, '')
 
 
 def build_string(node, path, key):
@@ -29,36 +32,22 @@ def build_string(node, path, key):
     match action:
         case 'add':
             path += f'{key}'
-            return f"Property *{path}* was added with value: {value2}"
+            return f"Property '{path}' was added with value: {value2}"
         case 'remove':
             path += f'{key}'
-            return f"Property *{path}* was removed"
+            return f"Property '{path}' was removed"
         case 'changed':
             path += f'{key}'
-            return f"Property *{path}* was updated. From {value1} to {value2}"
+            return f"Property '{path}' was updated. From {value1} to {value2}"
 
-    return NOTHING
-
-
-def to_str(data):
-    changed_data = (data
-                    .replace('[', '').replace(']', '')
-                    .replace('"', '').replace("'", '')
-                    .replace(', ', '\n')
-                    .replace("(", '[').replace(")", ']')
-                    .replace('\\', '').replace("&\n", '')
-                    .replace('*', "'")
-                    .replace("True", 'true')
-                    .replace('None', 'null')
-                    .replace("False", 'false'))
-    return changed_data
+    pass
 
 
 def safe_value_vison(value):
-    if isinstance(value, dict):
-        value = '(complex value)'
-
-    elif isinstance(value, str):
-        value = f"*{value}*"
-
-    return value
+    match value:
+        case dict():
+            return '[complex value]'
+        case str():
+            return f"\'{value}\'"
+        case _:
+            return json_value(value)

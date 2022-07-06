@@ -10,7 +10,7 @@ def get_data(file_path):
             data_format = path.splitext(file_path)[1][1:]
             return parse(data, data_format)
     except FileNotFoundError:
-        print("Wrong input format. Use yaml/yml or json formats.")
+        print("File not found.")
         sys.exit()
 
 
@@ -20,3 +20,4 @@ def parse(data, data_format):
         return json.load(data)
     elif data_format == 'yaml' or data_format == 'yml':
         return yaml.safe_load(data)
+    raise ValueError('Wrong input format. Use yml/yaml or json formats')
