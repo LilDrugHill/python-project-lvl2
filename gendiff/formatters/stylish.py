@@ -1,66 +1,58 @@
 import itertools
 
 
-REPLACER = " "
+SPACE = " "
 SPACES_COUNT = 4
-ADD = "+ "
-REMOVE = "- "
 
 
 def stylish(tree):
+    return walk(tree, 0)
 
-    def walk(node, depth):
-        if not isinstance(node, dict):
-            return str(json_value(node))
 
-        deep_indent_size = depth + SPACES_COUNT
-        deep_indent = REPLACER * deep_indent_size
-        current_indent = REPLACER * depth
-        lines = []
-        for key, val in node.items():
-            match get_action(val):
+def walk(node, depth):
+    if not isinstance(node, dict):
+        return str(to_str(node))
+
+    deep_indent_size = depth + SPACES_COUNT
+    deep_indent = SPACE * deep_indent_size
+    current_indent = SPACE * depth
+    lines = []
+    for key, val in node.items():
+        if isinstance(val, dict) and (action := val.get("action")):
+            match action:
                 case "add":
                     lines.append(
-                        f'{(deep_indent_size - 2) * REPLACER}+ {key}:\
+                        f'{(deep_indent_size - 2) * SPACE}+ {key}:\
  {walk(val.get("node2"), deep_indent_size)}'
                     )
                 case "remove":
                     lines.append(
-                        f'{(deep_indent_size - 2) * REPLACER}- {key}:\
+                        f'{(deep_indent_size - 2) * SPACE}- {key}:\
  {walk(val.get("node1"), deep_indent_size)}'
                     )
                 case "nested":
                     lines.append(
-                        f'{(deep_indent_size - 2) * REPLACER}  {key}:\
+                        f'{(deep_indent_size - 2) * SPACE}  {key}:\
  {walk(val.get("node1"), deep_indent_size)}'
                     )
                 case "changed":
                     lines.append(
-                        f'{(deep_indent_size - 2) * REPLACER}- {key}:\
+                        f'{(deep_indent_size - 2) * SPACE}- {key}:\
  {walk(val.get("node1"), deep_indent_size)}'
                     )
                     lines.append(
-                        f'{(deep_indent_size - 2) * REPLACER}+ {key}:\
+                        f'{(deep_indent_size - 2) * SPACE}+ {key}:\
  {walk(val.get("node2"), deep_indent_size)}'
                     )
-                case _:
-                    lines.append(f"{deep_indent}{key}: {walk(val, deep_indent_size)}")
-        some_str = itertools.chain(["{"], lines, [current_indent + "}"])
-        return "\n".join(some_str)
-
-    return walk(tree, 0)
+        else:
+            lines.append(f"{deep_indent}{key}: {walk(val, deep_indent_size)}")
+    some_str = itertools.chain(["{"], lines, [current_indent + "}"])
+    return "\n".join(some_str)
 
 
-def get_action(value):
-    return value.get("action") if isinstance(value, dict) else value
-
-
-def json_value(value):
-    match value:
-        case False:
-            return "false"
-        case True:
-            return "true"
-        case None:
-            return "null"
+def to_str(value):
+    if isinstance(value, bool):
+        return str(value).lower()
+    if value is None:
+        return 'null'
     return value
