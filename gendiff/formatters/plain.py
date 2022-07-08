@@ -1,8 +1,3 @@
-from gendiff.formatters.stylish import (
-    to_str,
-)  # Change None, False, True -> null, false, true
-
-
 def plain(tree):
     return walk(tree, "")
 
@@ -52,3 +47,11 @@ def safe_value_vision(value):
             return f"'{value}'"
         case _:
             return to_str(value)
+
+
+def to_str(value):
+    if isinstance(value, bool):
+        return str(value).lower()
+    if value is None:
+        return 'null'
+    return value

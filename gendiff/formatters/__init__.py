@@ -5,7 +5,7 @@ from gendiff.formatters.json_format import json_format
 
 def format_(tree, format_name):
     match format_name:
-        case 'stylish' | None:
+        case 'stylish':
             return stylish(tree)
         case 'plain':
             return plain(tree)
