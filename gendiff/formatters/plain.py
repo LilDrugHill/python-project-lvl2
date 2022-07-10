@@ -1,8 +1,8 @@
 def plain(tree):
-    return walk(tree, "")
+    return walk(tree)
 
 
-def walk(node, path, key=None):
+def walk(node, path='', key=None):
     if node.get("action"):
         return build_line(node, path, key)
 
@@ -23,35 +23,27 @@ def walk(node, path, key=None):
 
 def build_line(node, path, key):
 
-    value1 = safe_value_vision(node.get("node1"))
-    value2 = safe_value_vision(node.get("node2"))
+    value1 = to_str(node.get("node1"))
+    value2 = to_str(node.get("node2"))
     action = node.get("action")
-    match action:
-        case "add":
-            path += f"{key}"
-            return f"Property '{path}' was added with value: {value2}"
-        case "remove":
-            path += f"{key}"
-            return f"Property '{path}' was removed"
-        case "changed":
-            path += f"{key}"
-            return f"Property '{path}' was updated. From {value1} to {value2}"
+    path += f"{key}"
+    if action == 'add':
+        return f"Property '{path}' was added with value: {value2}"
+    if action == 'remove':
+        return f"Property '{path}' was removed"
+    if action == 'changed':
+        return f"Property '{path}' was updated. From {value1} to {value2}"
     return None
 
 
-def safe_value_vision(value):
+def to_str(value):
     match value:
         case dict():
             return "[complex value]"
         case str():
             return f"'{value}'"
-        case _:
-            return to_str(value)
-
-
-def to_str(value):
-    if isinstance(value, bool):
-        return str(value).lower()
-    if value is None:
-        return 'null'
+        case bool():
+            return str(value).lower()
+        case None:
+            return 'null'
     return value
