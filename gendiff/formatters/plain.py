@@ -46,4 +46,6 @@ def to_str(value):  # Новый оператор pattern matching сильно 
             return str(value).lower()
         case None:
             return 'null'
+        case int() | float():
+            return value
     return f"'{value}'"
