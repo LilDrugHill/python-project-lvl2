@@ -6,12 +6,12 @@ SPACES_COUNT = 4
 
 
 def stylish(tree):
-    return walk(tree, 0)
+    return walk(tree)
 
 
-def walk(node, depth):
+def walk(node, depth=0):
     if not isinstance(node, dict):
-        return str(to_str(node))
+        return to_str(node)
 
     deep_indent_size = depth + SPACES_COUNT
     deep_indent = SPACE * deep_indent_size
@@ -55,4 +55,4 @@ def to_str(value):
         return str(value).lower()
     if value is None:
         return 'null'
-    return value
+    return str(value)

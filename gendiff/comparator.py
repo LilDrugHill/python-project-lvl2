@@ -1,11 +1,11 @@
 EMPTY_VALUE = '&'
 
 
-def build_diff_tree(first_tree, second_tree):
+def build_diff(first_tree, second_tree):
 
     def walk(node1, node2, key=None):
         if not isinstance(node1, dict) or not isinstance(node2, dict):
-            return pair_gen(node1, node2, key)
+            return choose_action(node1, node2, key)
 
         sorted_children = sorted(set(node1) | set(node2))
 
@@ -22,7 +22,7 @@ def build_diff_tree(first_tree, second_tree):
     return walk(first_tree, second_tree)
 
 
-def pair_gen(node1, node2, key):
+def choose_action(node1, node2, key):
     value1 = node1
     value2 = node2
     if value1 == EMPTY_VALUE:

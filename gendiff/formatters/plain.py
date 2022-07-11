@@ -33,17 +33,17 @@ def build_line(node, path, key):
         return f"Property '{path}' was removed"
     if action == 'changed':
         return f"Property '{path}' was updated. From {value1} to {value2}"
-    return None
+    if action == 'nested':
+        return None
+    raise KeyError(f'Action "{action}" does not exist')
 
 
-def to_str(value):
-    match value:
+def to_str(value):  # Новый оператор pattern matching сильно упрощает
+    match value:  # жизнь во многих моментах и делает код еще более читаемым и лаконичным
         case dict():
             return "[complex value]"
-        case str():
-            return f"'{value}'"
         case bool():
             return str(value).lower()
         case None:
             return 'null'
-    return value
+    return f"'{value}'"
