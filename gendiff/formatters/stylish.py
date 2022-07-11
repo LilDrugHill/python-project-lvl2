@@ -55,4 +55,4 @@ def to_str(value):
         return str(value).lower()
     if value is None:
         return 'null'
-    return str(value)
+    return value

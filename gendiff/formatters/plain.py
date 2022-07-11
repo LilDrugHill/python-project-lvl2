@@ -38,8 +38,8 @@ def build_line(node, path, key):
     raise KeyError(f'Action "{action}" does not exist')
 
 
-def to_str(value):  # Новый оператор pattern matching сильно упрощает
-    match value:  # жизнь во многих моментах и делает код еще более читаемым и лаконичным
+def to_str(value):
+    match value:
         case dict():
             return "[complex value]"
         case bool():
